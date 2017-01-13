@@ -127,10 +127,11 @@ angular.module('appApp')
 		});
 	};
 
-	$scope.Search = function(val){
-		
-		
-	}
+	$scope.Search = function(){
+		myVilleAPI.UAS.getAll().then(function(uas){
+			console.log(uas);
+		});
+	};
 
 	$scope.$on('leafletDirectiveMap.map.click', function(event){
 		onMapClick();
