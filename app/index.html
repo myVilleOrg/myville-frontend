@@ -98,8 +98,10 @@
 							</label>
 						</li>
 					</ul>
-					<input type="text" ng-model="searchText" placeholder="Search" />
-					<button ng-click="Search()">Search</button>
+				</div>
+				<div class="map-search-bar">
+					<input class="search-bar" type="text" ng-model="search.Text" placeholder="Search" />
+					<a href="/#/searchPage" class="search-button" ng-click="Search()" >Search</a>
 				</div>
 				
 			</leaflet>
@@ -147,6 +149,7 @@
 		<script src="scripts/controllers/create_ua.js"></script>
 		<script src="scripts/controllers/mine.js"></script>
 		<script src="scripts/controllers/editua.js"></script>
+		<script src="scripts/controllers/searchPage.js"></script>
 		<!-- endbuild -->
 
 </body>

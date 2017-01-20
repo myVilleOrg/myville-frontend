@@ -45,13 +45,13 @@ angular.module('appApp')
 				UAS: {
 					get: function(data){
 						return $http.get(baseUrl + '/ua/get/geo', {params: data});
-        	},
-          getAll: function(){
-            return $http.get(baseUrl + '/ua/get/all');
-          },
-          create: function(data){
-            return $http.post(baseUrl + '/ua/create', data);
-          },
+		        	},
+		            getAll: function(data){
+		            	return $http.post(baseUrl + '/ua/search', data);
+		            },
+		            create: function(data){
+		              	return $http.post(baseUrl + '/ua/create', data);
+		            },
 					getPopular: function(data){
 						return $http.get(baseUrl + '/ua/get/geo', {params: data});
 					},
@@ -65,7 +65,7 @@ angular.module('appApp')
 						return $http.post(baseUrl + '/ua/favor', data);
 					},
 					update: function(id, data){
-							return $http.put(baseUrl + '/ua/' + id, data);
+						return $http.put(baseUrl + '/ua/' + id, data);
 					}
 				}
 			};

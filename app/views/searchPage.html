@@ -1,0 +1,12 @@
+<collapse-sidebar id="searchPage" heading-title="Résultats de la recherche">
+	<div class="list-ua">
+		<div class="ua-row" ng-repeat="search in tabSearch">
+			<div class="row-title">
+				<a ng-click="centerOnMap(search.coordinates)">{{search.title}}</a>
+			</div>
+			<div class="row-owner">
+				{{search.owner}}
+			</div>
+		</div>
+	</div>	
+</collapse-sidebar>

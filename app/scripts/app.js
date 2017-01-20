@@ -109,6 +109,11 @@ angular
 				controllerAs: 'favorite',
 				templateUrl: 'views/favorite.html',
 			})
+			.when('/searchPage', {
+				controller: 'SearchCtrl',
+				controllerAs: 'search',
+				templateUrl: 'views/searchPage.html',
+			})
 			.when('/ua/:uaId',{
 				controller: 'MainCtrl',
 				controllerAs: 'main',

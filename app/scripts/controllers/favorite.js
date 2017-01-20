@@ -23,7 +23,6 @@ angular.module('appApp')
 	  					$scope.tabFavorite.push(data);
 	  				});
 	  			});
-
 	  		};
 	  	};
 	};

@@ -10,6 +10,7 @@
 angular.module('appApp')
 .controller('MainCtrl', ['$scope', '$location', 'localStorageService', '$window', '$rootScope', 'ngDialog', 'myVilleAPI', 'leafletData', 'AuthentificationService', '$routeParams', '$compile', function ($scope, $location, localStorageService, $window, $rootScope, ngDialog, myVilleAPI, leafletData, AuthentificationService, $routeParams, $compile) {
 	$scope.resetPwd = {};
+	$scope.search={};
 
 	$scope.getPopupDescriptionUA = function(uaId) {
 		myVilleAPI.UAS.getOne(uaId).then(function(data){
@@ -143,11 +144,16 @@ angular.module('appApp')
 	};
 
 	$scope.Search = function(){
-		myVilleAPI.UAS.getAll().then(function(uas){
-			console.log(uas);
-		});
+		var tabUA = [];
+		var data = {
+			search: $scope.search.Text
+		}
+		myVilleAPI.UAS.getAll(data).then(function(uas){
+			tabUA = uas.data;
+			console.log(tabUA);
+			$rootScope.$broadcast('SearchClic', tabUA);
+		});       
 	};
-
 	$scope.$on('leafletDirectiveMap.map.click', function(event){
 		onMapClick();
 	});
@@ -157,7 +163,6 @@ angular.module('appApp')
 		$scope.center.lng = coordinates[0];
 		$scope.center.zoom = 18;
 	});
-
 
 	$scope.$on('$locationChangeStart', function (event, next, current) {
 		if(next === 'http://localhost:9000/#/profile/mine' && current != next){
