@@ -146,12 +146,10 @@ angular.module('appApp')
 			tabUA = uas.data;
 			console.log(tabUA);
 			$rootScope.$broadcast('SearchClic', tabUA);
+			$scope.search.Text = null;
 		});       
 	};
-	$scope.$on('leafletDirectiveMap.map.click', function(event){
-		onMapClick();
-	});
-	
+
 	$scope.$on('leafletDirectiveMap.map.dragend', showUas);
 
 	$scope.$on('leafletDirectiveMap.map.zoomend', showUas);
