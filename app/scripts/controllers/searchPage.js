@@ -15,9 +15,9 @@ angular.module('appApp')
             var dataUA = {
                 title: data[i].title,
                 owner: data[i].owner.username,
-                coordinates: data[i].location.coordinates  
+                coordinates: data[i].location.geometries  
             }
-            $scope.tabSearch.push(dataUA);      
+            $scope.tabSearch.push(dataUA);
         }
     });   
 

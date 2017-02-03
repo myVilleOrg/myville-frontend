@@ -138,16 +138,19 @@ angular.module('appApp')
 
 
 	$scope.Search = function(){
-		var tabUA = [];
-		var data = {
-			search: $scope.search.Text
-		}
-		myVilleAPI.UAS.getAll(data).then(function(uas){
-			tabUA = uas.data;
-			console.log(tabUA);
-			$rootScope.$broadcast('SearchClic', tabUA);
-			$scope.search.Text = null;
-		});       
+		if($scope.search.Text!=null){
+			$window.location.href = '#/searchPage';
+			var tabUA = [];
+			var data = {
+				search: $scope.search.Text
+			}
+			myVilleAPI.UAS.getAll(data).then(function(uas){
+				tabUA = uas.data;
+				$rootScope.$broadcast('SearchClic', tabUA);
+				$scope.search.Text = null;
+
+			}); 
+		}    
 	};
 
 	$scope.$on('leafletDirectiveMap.map.dragend', showUas);
