@@ -19,6 +19,7 @@ angular.module('appApp')
             }
             $scope.tabSearch.push(dataUA);
         }
+
     });   
 
     $scope.centerOnMap = function(coordinates){

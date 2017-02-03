@@ -1,5 +1,10 @@
 <collapse-sidebar id="searchPage" heading-title="Résultats de la recherche">
 	<div class="list-ua">
+		<div class="ua-row" ng-if="tabSearch.length < 1">
+			<div>
+				Pas de résultats pour votre recherche.
+			</div>
+		</div>
 		<div class="ua-row" ng-repeat="search in tabSearch">
 			<div class="row-title">
 				<a ng-click="centerOnMap(search.coordinates)">{{search.title}}</a>

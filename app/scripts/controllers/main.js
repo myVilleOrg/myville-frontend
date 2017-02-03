@@ -138,7 +138,7 @@ angular.module('appApp')
 
 
 	$scope.Search = function(){
-		if($scope.search.Text!=null){
+		if($scope.search.Text!="" && $scope.search.Text!= null && typeof $scope.search.Text!= "undefined" ){
 			$window.location.href = '#/searchPage';
 			var tabUA = [];
 			var data = {
@@ -147,10 +147,9 @@ angular.module('appApp')
 			myVilleAPI.UAS.getAll(data).then(function(uas){
 				tabUA = uas.data;
 				$rootScope.$broadcast('SearchClic', tabUA);
-				$scope.search.Text = null;
-
 			}); 
-		}    
+		}   
+		$scope.search.Text = null; 
 	};
 
 	$scope.$on('leafletDirectiveMap.map.dragend', showUas);
