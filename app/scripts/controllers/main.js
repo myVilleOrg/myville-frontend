@@ -14,11 +14,15 @@ angular.module('appApp')
 
 	$scope.getPopupDescriptionUA = function(uaId) {
 		myVilleAPI.UAS.getOne(uaId).then(function(data){
-			ngDialog.open({data: data.data, template: 'views/single_ua.html', appendClassName: 'modal-single-ua'});
+			ngDialog.open({data: data.data, controller: 'VoteCtrl', template: 'views/single_ua.html', appendClassName: 'modal-single-ua'});
 		});
 	};
+
 	$scope.forgotClick = function(){
-		if($scope.resetPwd.pwd1 !== $scope.resetPwd.pwd2) return $scope.message = 'Mot de passe différent.';
+		if($scope.resetPwd.pwd1 !== $scope.resetPwd.pwd2) {
+			$scope.message = 'Mot de passe différent.';
+			return;
+		}
 
 		var data = {
 			tokenReset: $scope.ngDialogData.token,
@@ -27,8 +31,10 @@ angular.module('appApp')
 
 		myVilleAPI.User.reset(data).then(function(){
 			$scope.closeThisDialog();
+			return;
 		}).catch(function(err){
 			$scope.message = err.data.message;
+			return;
 		});
 	};
 
@@ -52,27 +58,28 @@ angular.module('appApp')
 
 	$scope.selectFilter = function(index){
 		if(index === 0){
-			$scope.filters = {popular: true, mine: false, favorite: false};
+			$scope.filters = {all: true, popular: false, mine: false, favorite: false};
 		}
 		if(index === 1){
-			$scope.filters = {popular: false, mine: true, favorite: false};
+			$scope.filters = {all: false, popular: true, mine: false, favorite: false};
 		}
-		if(index === 2) {
-			$scope.filters = {popular: false, mine: false, favorite: true};
+		if(index === 2){
+			$scope.filters = {all: false, popular: false, mine: true, favorite: false};
+		}
+		if(index === 3) {
+			$scope.filters = {all: false, popular: false, mine: false, favorite: true};
 		}
 
 	};
-	/*$rootScope.$on('$routeChangeStart', function (event, next, current) {
-		if (!AuthentificationService.routeGuardian()) {
-			event.preventDefault();
-			$location.path('/');
-		}
-	});*/
+
 	$scope.$watch('filters', function(newv, old){ //on filter change
-		if(JSON.stringify(newv) != JSON.stringify(old)){
+		if(JSON.stringify(newv) !== JSON.stringify(old)){
 			showUas();
 		}
 		if(newv.popular){
+			$window.location.href = '#/';
+		}
+		if(newv.all){
 			$window.location.href = '#/';
 		}
 		if(newv.mine){
@@ -96,14 +103,14 @@ angular.module('appApp')
 			catch (e){
 			}
 			var mapBounds = [[map.getBounds().getNorthWest().lng, map.getBounds().getNorthWest().lat], [map.getBounds().getSouthEast().lng, map.getBounds().getSouthEast().lat]];
-			var filterRequest = $scope.filters.mine ? myVilleAPI.UAS.getMine : $scope.filters.popular ? myVilleAPI.UAS.getPopular : myVilleAPI.UAS.getFavorites;
+			var filterRequest = $scope.filters.mine ? myVilleAPI.UAS.getMine : $scope.filters.popular ? myVilleAPI.UAS.getPopular : $scope.filters.all ? myVilleAPI.UAS.getAll : myVilleAPI.UAS.getFavorites;
 			filterRequest({map: JSON.stringify(mapBounds)}).then(function(geocodes){
 				$rootScope.cachedMarkers = geocodes.data;
 				geoJsonLayer = L.geoJson(geocodes.data, {
 					onEachFeature: function (feature, layer) {
 
 						var starClass = 'fa fa-star-o';
-						if($rootScope.user && $rootScope.user.favoris.indexOf(feature.properties._doc._id) != -1){
+						if($rootScope.user && $rootScope.user.favoris.indexOf(feature.properties._doc._id) !== -1){
 							starClass = 'fa fa-star';
 						}
 						var testFavoriHtml = $rootScope.user ? '<i id="'+ feature.properties._doc._id +'" class="'+ starClass +'" ng-click="editFavori(\''+ feature.properties._doc._id +'\')" aria-hidden="true"></i>' : ''
@@ -131,7 +138,7 @@ angular.module('appApp')
 		myVilleAPI.UAS.favor({ua: ua_id}).then(function(user){
 			$rootScope.user.favoris = user.data.favoris;
 			localStorageService.set('user', user.data);
-			angular.element(document.getElementById(ua_id))[0].className == 'fa fa-star-o' ? angular.element(document.getElementById(ua_id))[0].className = 'fa fa-star' : angular.element(document.getElementById(ua_id))[0].className = 'fa fa-star-o';
+			angular.element(document.getElementById(ua_id))[0].className === 'fa fa-star-o' ? angular.element(document.getElementById(ua_id))[0].className = 'fa fa-star' : angular.element(document.getElementById(ua_id))[0].className = 'fa fa-star-o';
 			$rootScope.$broadcast('updateFavorite');
 		});
 	};
@@ -159,12 +166,15 @@ angular.module('appApp')
 	$scope.$on('centerOnMap', function(event, coordinates){
 		var point = coordinates[0];
 		var coordinate, zoom;
-		if(point.type == 'Polygon'){
+		if(point.type === 'Polygon'){
 			coordinate = coordinates[0].coordinates[0][0];
 			zoom = 14;
-		} else if(point.type == 'Point'){
+		} else if(point.type === 'Point'){
 			coordinate = coordinates[0].coordinates;
 			zoom = 18;
+		} else if(point.type === 'LineString'){
+			coordinate = coordinates[0].coordinates[0];
+			zoom = 14;
 		}
 		$scope.center.lat = coordinate[1];
 		$scope.center.lng = coordinate[0];
@@ -172,27 +182,25 @@ angular.module('appApp')
 	});
 
 	$scope.$on('$locationChangeStart', function (event, next, current) {
-		if(next === 'http://localhost:9000/#/profile/mine' && current != next){
+		if(next === 'http://localhost:9000/#/profile/mine' && current !== next){
 			$scope.filters.mine = true;
 			$scope.filters.popular = false;
 			$scope.filters.favorite = false;
+			$scope.filters.all = false;
+
 		}
-		if(next === 'http://localhost:9000/#/profile/favorite' && current != next){
+		if(next === 'http://localhost:9000/#/profile/favorite' && current !== next){
 			$scope.filters.mine = false;
 			$scope.filters.popular = false;
 			$scope.filters.favorite = true;
-		}
-		if(next === 'http://localhost:9000/#/' && current != next){
-			$scope.filters.mine = false;
-			$scope.filters.popular = true;
-			$scope.filters.favorite = false;
+			$scope.filters.all = false;
 		}
 		$scope.$emit('normalMode')
 
 	});
 	$scope.$on('filtersReset', function(evt, data){
 		if(data){
-			$scope.filters = {mine: false, popular: true, favorite: false};
+			$scope.filters = {all: false, popular: false, mine: false, favorite: false};
 		}
 	});
 
@@ -206,8 +214,9 @@ angular.module('appApp')
 			bounds: {},
 			geojson : {},
 			filters: {
+				all: true,
+				popular: false,
 				mine: false,
-				popular: true,
 				favorite: false
 			}
 	});
@@ -305,7 +314,7 @@ angular.module('appApp')
 				{
 					element: document.querySelector('#map'),
 					intro: 'Là tu peux naviguer sur la carte et voir les aménagements d\'autres personnes, les aimer, les partager ...',
-				},
+				}
 				],
 				showStepNumbers: false,
 				exitOnOverlayClick: true,
@@ -322,7 +331,7 @@ angular.module('appApp')
 	}
 	$scope.$on('firstLoginTutorial', function(){
 		var tutorialDone = localStorageService.get('tutorialMode');
-		if(AuthentificationService.routeGuardian() && tutorialDone && tutorialDone == 'mode1'){
+		if(AuthentificationService.routeGuardian() && tutorialDone && tutorialDone === 'mode1'){
 
 			$timeout(function(){
 				angular.extend($scope, {

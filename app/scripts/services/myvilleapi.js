@@ -56,6 +56,9 @@ angular.module('appApp')
 						return $http.post(baseUrl + '/ua/create', data);
 					},
 					getPopular: function(data){
+						return $http.get(baseUrl + '/ua/get/popular', {params: data});
+					},
+					getAll: function(data){
 						return $http.get(baseUrl + '/ua/get/geo', {params: data});
 					},
 					getMine: function(){
@@ -72,6 +75,17 @@ angular.module('appApp')
 					},
 					delete: function(id){
 						return $http.delete(baseUrl +  '/ua/' + id);
+					},
+					vote: function(id, data){
+						return $http.post(baseUrl + '/ua/vote/' + id, data);
+					},
+					deleteVote: function(id){
+						return $http.delete(baseUrl + '/ua/vote/' + id);
+					}
+				},
+				Vote: {
+					getVote: function(uaId){
+						return $http.get(baseUrl + '/vote/'+ uaId);
 					}
 				}
 			};
