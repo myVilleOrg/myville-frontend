@@ -151,7 +151,7 @@ angular.module('appApp')
 			var data = {
 				search: $scope.search.Text
 			}
-			myVilleAPI.UAS.getAll(data).then(function(uas){
+			myVilleAPI.UAS.search(data).then(function(uas){
 				tabUA = uas.data;
 				$rootScope.$broadcast('SearchClic', tabUA);
 			}); 

@@ -46,7 +46,7 @@ angular.module('appApp')
 					get: function(data){
 						return $http.get(baseUrl + '/ua/get/geo', {params: data});
 		        	},
-		            getAll: function(data){
+		            search: function(data){
 		            	return $http.post(baseUrl + '/ua/search', data);
 		            },
 					getFavorites: function(data){
