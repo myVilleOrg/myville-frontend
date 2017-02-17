@@ -1,10 +1,9 @@
 'use strict';
 /**
- * @ngdoc function
- * @name appApp.controller:MainCtrl
+ * @name LoginCtrl
  * @description
- * # MainCtrl
- * Controller of the appApp
+ * # myVille
+ * Controller of login modalbox
  */
 
 angular.module('appApp').controller('LoginCtrl', function ($rootScope, $scope, $window, myVilleAPI, AuthentificationService, hello, ngDialog, $location) {
@@ -13,6 +12,7 @@ angular.module('appApp').controller('LoginCtrl', function ($rootScope, $scope, $
 	$scope.signupUser = {};
 	$scope.forgotPwd = {};
 	$scope.log = true;
+
 	var loginSocialNetwork = function(network){
 		var configNetwork = {
 			google: {
