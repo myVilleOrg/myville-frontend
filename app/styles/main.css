@@ -512,13 +512,15 @@ a.active {
   padding: 0.1em;
 }
 #myUA > .content-side > .list-ua,
-#favoriteUA > .content-side > .list-ua {
+#favoriteUA > .content-side > .list-ua,
+#searchPage > .content-side > .list-ua {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 }
 #myUA > .content-side > .list-ua > .ua-row,
-#favoriteUA > .content-side > .list-ua > .ua-row {
+#favoriteUA > .content-side > .list-ua > .ua-row,
+#searchPage > .content-side > .list-ua > .ua-row {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -527,16 +529,24 @@ a.active {
   border-bottom: 1px #e8ecef solid;
 }
 #myUA > .content-side > .list-ua > .ua-row > .row-title,
-#favoriteUA > .content-side > .list-ua > .ua-row > .row-title {
+#favoriteUA > .content-side > .list-ua > .ua-row > .row-title,
+#searchPage > .content-side > .list-ua > .ua-row > .row-title {
   flex: 0.5;
 }
 #myUA > .content-side > .list-ua > .ua-row > .row-date,
-#favoriteUA > .content-side > .list-ua > .ua-row > .row-date {
+#favoriteUA > .content-side > .list-ua > .ua-row > .row-date,
+#searchPage > .content-side > .list-ua > .ua-row > .row-date {
   flex: 0.4;
 }
 #myUA > .content-side > .list-ua > .ua-row > .row-edit,
-#favoriteUA > .content-side > .list-ua > .ua-row > .row-edit {
+#favoriteUA > .content-side > .list-ua > .ua-row > .row-edit,
+#searchPage > .content-side > .list-ua > .ua-row > .row-edit {
   flex: 0.1;
+}
+#myUA > .content-side > .list-ua > .ua-row > .row-owner,
+#favoriteUA > .content-side > .list-ua > .ua-row > .row-owner,
+#searchPage > .content-side > .list-ua > .ua-row > .row-owner {
+  flex: 0.4;
 }
 #map {
   flex: 1;
@@ -562,6 +572,38 @@ a.active {
 #map > div > .map-filter-box > .filter-list {
   padding: 1em;
   list-style: none;
+}
+#map > div > .map-search-bar {
+  position: absolute;
+  cursor: initial;
+  top: 0px;
+  right: 650px;
+  max-width: 250px;
+  min-width: 250px;
+  background: white;
+  padding: 5px 5px;
+  text-align: center;
+  z-index: 10000;
+}
+#map > div > .map-search-bar > .search-bar {
+  max-width: 110px;
+  min-width: 110px;
+  float: left;
+}
+#map > div > .map-search-bar > .search-button {
+  background-color: #55A3F6;
+  border-radius: 0.6em;
+  color: white;
+  border: none;
+  outline: none;
+  margin-top: 0px;
+  height: 20px;
+  width: 50%;
+  float: right;
+}
+#map > div > .option-search > span {
+  top: 10px;
+  right: 650px;
 }
 #map > div > .create-ua-button {
   display: none;

@@ -40,6 +40,12 @@ angular.module('appApp')
 				},
 
 				UAS: {
+					get: function(data){
+						return $http.get(baseUrl + '/ua/get/geo', {params: data});
+		        	},
+		            search: function(data){
+		            	return $http.post(baseUrl + '/ua/search', data);
+		            },
 					getFavorites: function(data){
 						return $http.get(baseUrl + '/ua/get/favorite', {params: data});
 					},
@@ -62,7 +68,7 @@ angular.module('appApp')
 						return $http.post(baseUrl + '/ua/favor', data);
 					},
 					update: function(id, data){
-							return $http.put(baseUrl + '/ua/' + id, data);
+						return $http.put(baseUrl + '/ua/' + id, data);
 					},
 					delete: function(id){
 						return $http.delete(baseUrl +  '/ua/' + id);

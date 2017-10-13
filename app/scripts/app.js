@@ -119,6 +119,11 @@ angular
 					}
 				}
 			})
+			.when('/searchPage', {
+				controller: 'SearchCtrl',
+				controllerAs: 'search',
+				templateUrl: 'views/searchPage.html',
+			})
 			.when('/ua/:uaId',{
 				controller: 'MainCtrl',
 				controllerAs: 'main',

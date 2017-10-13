@@ -9,6 +9,7 @@
 angular.module('appApp')
 .controller('MainCtrl', ['$scope', '$location', 'localStorageService', '$timeout', '$window', '$rootScope', 'ngDialog', 'myVilleAPI', 'leafletData', 'AuthentificationService', '$routeParams', '$compile', function ($scope, $location, localStorageService, $timeout, $window, $rootScope, ngDialog, myVilleAPI, leafletData, AuthentificationService, $routeParams, $compile) {
 	$scope.resetPwd = {};
+	$scope.search={};
 
 	$scope.getPopupDescriptionUA = function(uaId) { // when we click on title on ua display a modal box
 		myVilleAPI.UAS.getOne(uaId).then(function(data){
@@ -146,7 +147,24 @@ angular.module('appApp')
 		});
 	};
 
+
+	$scope.Search = function(){
+		if($scope.search.Text!="" && $scope.search.Text!= null && typeof $scope.search.Text!= "undefined" ){
+			$window.location.href = '#/searchPage';
+			var tabUA = [];
+			var data = {
+				search: $scope.search.Text
+			}
+			myVilleAPI.UAS.search(data).then(function(uas){
+				tabUA = uas.data;
+				$rootScope.$broadcast('SearchClic', tabUA);
+			}); 
+		}   
+		$scope.search.Text = null; 
+	};
+
 	$scope.$on('leafletDirectiveMap.map.dragend', showUas); // on drag we update map
+
 
 	$scope.$on('leafletDirectiveMap.map.zoomend', showUas);// on drag we update map
 
